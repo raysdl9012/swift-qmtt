@@ -10,7 +10,7 @@ import UIKit
 class ViewController: UIViewController {
 
     
-    private let topic = "test"
+    private let topic = "temperature"
     @IBOutlet weak var inputHost: UITextField!
     @IBOutlet weak var inputUser: UITextField!
     @IBOutlet weak var inputPassword: UITextField!

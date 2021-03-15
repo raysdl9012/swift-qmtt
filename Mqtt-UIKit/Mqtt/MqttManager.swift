@@ -85,7 +85,6 @@ class MqttManager: NSObject {
     
     func mqttSetting(user: String, password:String) {
         let clientID = "iOS-mqtt-" + String(ProcessInfo().processIdentifier)
-        print(user,password)
         mqtt = CocoaMQTT(clientID: clientID, host: self.hostMQTT, port: UInt16(self.portMQTT))
         mqtt!.username = user
         mqtt!.password = password
@@ -96,10 +95,9 @@ class MqttManager: NSObject {
     // Funcion para realizar configuracion de la conexion MQTT, parametros Host, User, Password del bloker
     func mqttSetting(host:String, user: String, password:String) {
         let clientID = "iOS-mqtt-" + String(ProcessInfo().processIdentifier)
-        self.hostMQTT = user
-        self.userMQTT = host
+        self.hostMQTT = host
+        self.userMQTT = user
         self.passwordMQTT = password
-        
         mqtt = CocoaMQTT(clientID: clientID, host: self.hostMQTT, port: UInt16(self.portMQTT))
         mqtt!.username = user
         mqtt!.password = password
@@ -109,7 +107,8 @@ class MqttManager: NSObject {
     
     // Funcion para realizar la conexion
     func connectMqtt(){
-        _ = self.mqtt?.connect();
+        let connected = self.mqtt?.connect();
+        print(connected ?? false)
     }
     
     // Funcion para suscribirse a un topico
@@ -136,6 +135,12 @@ extension MqttManager : CocoaMQTTDelegate {
     
     func mqttDidDisconnect(_ mqtt: CocoaMQTT, withError err: Error?) {
         print("mqttDidDisconnect")
+        print(err.debugDescription)
+        print(err!.localizedDescription)
+        print(mqtt.autoReconnect);
+        print(mqtt.host)
+        print(mqtt.username)
+        
     }
     
     func mqtt(_ mqtt: CocoaMQTT, didConnectAck ack: CocoaMQTTConnAck) {
